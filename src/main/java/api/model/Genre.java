@@ -24,7 +24,7 @@ public class Genre {
 	@Column(name = "GENRENAME")
 	@NotBlank
 	@Size(min = 1, max = 20)
-	private String genreName;
+	private String genre_name;
 		
 	@Column(name = "DESCRIPTION")
 	@Nullable 
@@ -36,11 +36,11 @@ public class Genre {
 	}
 
 	public Genre(int genre_id,
-			String genreName,
+			String genre_name,
 			String description) {
 		super();
 		this.genre_id = genre_id;
-		this.genreName = genreName;
+		this.genre_name = genre_name;
 		this.description = description;
 	}
 
@@ -53,11 +53,11 @@ public class Genre {
 	}
 
 	public String getGenreName() {
-		return genreName;
+		return genre_name;
 	}
 
-	public void setGenreName(String genreName) {
-		this.genreName = genreName;
+	public void setGenreName(String genre_name) {
+		this.genre_name = genre_name;
 	}
 
 	public String getDescription() {

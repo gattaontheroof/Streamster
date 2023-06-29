@@ -13,36 +13,41 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-@Entity (name = "Show")
+@Entity 
+@Table(name = "Show")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Show {
 	
 	@Id
 	@Column(name = "SHOW_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "show_gen")
 	@SequenceGenerator(name = "show_gen", sequenceName = "show_id_seq", initialValue = 1, allocationSize = 1)
-	private int show_id;
+	private Integer show_id;
 	
-	@Column(name = "TITLE")
+	@Column(name = "SHOW_TITLE")
 	@NotBlank(message = "Title must not be null or blank")
 	@Size(min = 1, max = 60, message = "Title must  be longer than 1 character and less than 60 characters")
-	private String title;
+	private String show_title;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "SHOWTYPE")
+	@Column(name = "SHOW_TYPE")
 	@NotBlank(message = "Show type must not be null or blank")
 	@Size(min = 1, max = 10, message = "Title must  be longer than 1 character and less than 10 characters")
-	private ShowType showType;
+	private ShowType show_type;
 	
-	@Column(name = "RELEASE_YEAR")
-	@Size(min = 1, max = 20, message = "Release year must  be longer than 1 character and less than 20 characters")
-	private String release_year;
+	@Column(name = "SHOW_RELEASE_YEAR")
+	@Size(max = 4)
+	private String show_release_year;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(name = "CERTIFICATE")
@@ -50,130 +55,126 @@ public class Show {
 	@Size(min = 1, max = 4, message = "age certificate year must  be longer than 1 character and less than 4 characters")
 	private Certificate certificate;
 	
-	@Column(name = "DESCRIPTON")
+	@Column(name = "SHOW_SYNOPSIS")
 	@Nullable 
 	@Size(max = 150) 
-	private String description;
-	
-	@Column(name = "PARENT_SHOW_ID")
-	@Nullable 
-	@Size(max = 6) 
-	private int parent_show_id;
-	
-	@Column(name = "EPISODE_ID")
-	@Nullable 
-	@Size(max = 8) 
-	
-	private String episode_id;
-	@Column(name = "EPISODE_TITLE")
-	@Nullable 
-	@Size(max = 8)
-	
-	private String episode_title;
-	@Column(name = "EPISODE_PLOT")
-	@Nullable 
-	@Size(max = 150)
-	
-	private String episode_plot;
+	private String show_synopsis;
+
+	@Enumerated(EnumType.STRING)
 	@Column(name = "LANGUAGE")
 	@Nullable 
 	@Size(max = 20)
+	private Language language;
 	
-//	@Enumerated(EnumType.STRING)
-	private String language;
-	@Column(name = "SEASON")
+	@Column(name = "SHOW_DURATION")
 	@Nullable 
-	@Size(max = 4)
-	private int season;
+	@Size(max = 10)
+	private String show_duration;
 	
-	@Column(name = "DURATION")
-	@Nullable 
-	@Size(max = 4)
-	private String duration;
-	
-	@Column(name = "IMAGE")
+	@Column(name = "SHOW_IMAGE")
 	@NotBlank(message = "Image required")
 	@Size(min = 5, max = 100)
-	private String image;
+	private String show_image;
 	
-	@Column(name = "TRAILER")
+	@Column(name = "SHOW_TRAILER")
 	@NotBlank(message = "Link required")
 	@Size(min = 5, max = 100)
-	private String trailer;
+	private String show_trailer;
 	
-	@Column(name = "EPISODE_TRAILER")
-	@Nullable 
-	@Size(max = 150) 
-	private String episode_trailer;
-	
-	@Column(name = "STREAM")
+	@Column(name = "SHOW_STREAM")
 	@NotBlank(message = "Link required")
 	@Size(min = 5, max = 100)
-	private String stream;
-
+	private String show_stream;
 	
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
 	@JoinTable(name = "show_and_genre", joinColumns = @JoinColumn(name = "show_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
 	private List<Genre> genres = new ArrayList<>();
-
+	
 
 	public Show() {
-		super();
-	
-		
+
 	}
 
-
-	public Show(int show_id,
-		String title,
-		ShowType showType,
-		String release_year,
-		Certificate certificate,
-		int parent_show_id, 
-		String language, 
-		List<Genre> genres) {
-		
+	
+	public Show(Integer show_id,
+			String show_title,
+			ShowType show_type,
+			String show_release_year,
+			Certificate certificate,
+			Language language,
+			String show_duration,
+			String show_image, 
+			List<Genre> genres) {
 		super();
 		this.show_id = show_id;
-		this.title = title;
-		this.showType = showType;
-		this.release_year = release_year;
+		this.show_title = show_title;
+		this.show_type = show_type;
+		this.show_release_year = show_release_year;
 		this.certificate = certificate;
-		this.parent_show_id = parent_show_id;
 		this.language = language;
+		this.show_duration = show_duration;
+		this.show_image = show_image;
 		this.genres = genres;
 	}
 
-	public int getShow_id() {
+
+
+	public Show(Integer show_id,
+			String show_title,
+			ShowType show_type,
+			String show_release_year,
+			Certificate certificate,
+			String show_synopsis,
+			Language language,
+			String show_duration,
+			String show_image,
+			String show_trailer,
+			String show_stream, List<Genre> genres) {
+		super();
+		this.show_id = show_id;
+		this.show_title = show_title;
+		this.show_type = show_type;
+		this.show_release_year = show_release_year;
+		this.certificate = certificate;
+		this.show_synopsis = show_synopsis;
+		this.language = language;
+		this.show_duration = show_duration;
+		this.show_image = show_image;
+		this.show_trailer = show_trailer;
+		this.show_stream = show_stream;
+		this.genres = genres;
+	}
+
+	public Integer getShow_id() {
 		return show_id;
 	}
 
-	public void setShow_id(int show_id) {
+	public void setShow_id(Integer show_id) {
 		this.show_id = show_id;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getShow_title() {
+		return show_title;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setShow_title(String show_title) {
+		this.show_title = show_title;
 	}
 
-	public ShowType getShowType() {
-		return showType;
+	public ShowType getShow_type() {
+		return show_type;
 	}
 
-	public void setShowType(ShowType showType) {
-		this.showType = showType;
+	public void setShow_type(ShowType show_type) {
+		this.show_type = show_type;
 	}
 
-	public String getRelease_year() {
-		return release_year;
+	public String getShow_release_year() {
+		return show_release_year;
 	}
 
-	public void setRelease_year(String release_year) {
-		this.release_year = release_year;
+	public void setShow_release_year(String show_release_year) {
+		this.show_release_year = show_release_year;
 	}
 
 	public Certificate getCertificate() {
@@ -184,100 +185,53 @@ public class Show {
 		this.certificate = certificate;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getShow_synopsis() {
+		return show_synopsis;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setShow_synopsis(String show_synopsis) {
+		this.show_synopsis = show_synopsis;
 	}
 
-	public int getParent_show_id() {
-		return parent_show_id;
-	}
-
-	public void setParent_show_id(int parent_show_id) {
-		this.parent_show_id = parent_show_id;
-	}
-
-	public String getEpisode_id() {
-		return episode_id;
-	}
-
-	public void setEpisode_id(String episode_id) {
-		this.episode_id = episode_id;
-	}
-
-	public String getEpisode_title() {
-		return episode_title;
-	}
-
-	public void setEpisode_title(String episode_title) {
-		this.episode_title = episode_title;
-	}
-
-	public String getEpisode_plot() {
-		return episode_plot;
-	}
-
-	public void setEpisode_plot(String episode_plot) {
-		this.episode_plot = episode_plot;
-	}
-
-	public String getLanguage() {
+	public Language getLanguage() {
 		return language;
 	}
 
-	public void setLanguage(String language) {
+	public void setLanguage(Language language) {
 		this.language = language;
 	}
 
-	public int getSeason() {
-		return season;
+	public String getShow_duration() {
+		return show_duration;
 	}
 
-	public void setSeason(int season) {
-		this.season = season;
+	public void setShow_duration(String show_duration) {
+		this.show_duration = show_duration;
 	}
 
-	public String getDuration() {
-		return duration;
+	public String getShow_image() {
+		return show_image;
 	}
 
-	public void setDuration(String duration) {
-		this.duration = duration;
+	public void setShow_image(String show_image) {
+		this.show_image = show_image;
 	}
 
-	public String getImage() {
-		return image;
+	public String getShow_trailer() {
+		return show_trailer;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+	public void setShow_trailer(String show_trailer) {
+		this.show_trailer = show_trailer;
 	}
 
-	public String getTrailer() {
-		return trailer;
+	public String getShow_stream() {
+		return show_stream;
 	}
 
-	public void setTrailer(String trailer) {
-		this.trailer = trailer;
-	}
 
-	public String getEpisode_trailer() {
-		return episode_trailer;
-	}
-
-	public void setEpisode_trailer(String episode_trailer) {
-		this.episode_trailer = episode_trailer;
-	}
-
-	public String getStream() {
-		return stream;
-	}
-
-	public void setStream(String stream) {
-		this.stream = stream;
+	public void setShow_stream(String show_stream) {
+		this.show_stream = show_stream;
 	}
 
 	public List<Genre> getGenres() {
@@ -288,6 +242,7 @@ public class Show {
 		this.genres = genres;
 	}
 	
+
 	
 }
 

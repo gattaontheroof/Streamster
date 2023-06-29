@@ -7,6 +7,7 @@ public enum Country {
 	IRELAND, 
 	FRANCE, 
 	GERMANY, 
+	SPAIN,
 	POLAND
 
 }
