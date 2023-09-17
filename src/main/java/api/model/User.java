@@ -2,10 +2,9 @@ package api.model;
 
 import java.time.LocalDate;
 import java.util.Date;
+//import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.lang.Nullable;
-
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,9 +13,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+//import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity(name = "`User`")
@@ -26,61 +25,51 @@ public class User {
 	@Column(name = "USER_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usergen")
 	@SequenceGenerator(name = "usergen", sequenceName = "user_id_seq", initialValue = 5, allocationSize = 1)
-	private int id; 
+	private Integer id; 
 	
-	@Column(name = "FIRSTNAME")
-	@NotBlank(message = "Enter a first name")
+	@Column(name = "FIRSTNAME", nullable = false)
 	@Size(min = 1, max = 20, message = "First name must  be longer than 1 character and less than 20 characters")
 	private String firstName;
 	
-	@Column(name = "LASTNAME")
-	@NotBlank(message = "Enter a last name")
+	@Column(name = "LASTNAME", nullable = false)
 	@Size(min = 1, max = 20, message = "Last name must  be longer tan 1 character and less than 20 characters")
 	private String lastName;
 	
-	@Column(name="DOB")
-	@NotBlank(message = "DOB must not be null or blank")
+	@Column(name="DOB", nullable = false)
 	@Size(min = 1, max = 10, message = "DOB must not be blank")
 	private Date dob;
 	
-	@Column(name = "EMAIL")
-	@NotBlank(message = "Enter a valid email address")
+	@Column(name = "EMAIL", nullable = false)
 	@Size(min = 6, max = 30)
 	@Email
 	private String email;
 	
-	@Column(name = "PHONE_NO")
-	@Nullable 
+	@Column(name = "PHONE_NO", nullable = true)
 	@Size(max = 12) 
-	private int phone_no;
+	private int phoneNo;
 	
 	@Enumerated(EnumType.STRING)	
-	@Column(name = "COUNTRY")
-	@NotBlank(message = "Please select a country from a list")
+	@Column(name = "COUNTRY", nullable = false)
 	@Size(min = 6, max = 30)
 	private Country country;
 	
-	@Column(name="PASSWORD")
-	@NotBlank(message = "Password must have at least 8 characters")
+	@Column(name="PASSWORD", nullable = false)
 	@Size(min = 8, max = 30)
 	@Value("${some.key:u}")
 	private String password;
 	
-	@Column(name = "REGISTRATION_DATE")
-	@NotBlank(message = "Registration date must not be null or blank")
+	@Column(name = "REGISTRATION_DATE", nullable = false)
 	@GeneratedValue
-	private LocalDate registration_date;
+	private LocalDate registrationDate;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name ="SUBSCRIPTION")
-	@NotBlank(message = "Please select a subscription from  the list")
+	@Column(name ="SUBSCRIPTION", nullable = false)
 	@Size(max = 8)
 	private Subscription subscription;
 	
-//	@Column(name="RENEWAL_DATE")
-//	@Nullable
-//	@GeneratedValue
-//	private Date renewal_date;
+//	@Column(name="PAYMENT", nullable = true)
+//	@OneToMany(mappedBy = "transaction_id")
+//	private List<Payment> paymentList;;
 	
 //	@Enumerated(EnumType.ORDINAL)
 //	@Column (name = "STATUS")
@@ -88,17 +77,15 @@ public class User {
 //	@GeneratedValue)
 //	private Status status;
 	
-	@Column (name = "RESET_TOKEN")
-	@Nullable
-	@Size(max = 60) 
-	private String password_reset_token;
+	@Column (name = "RESET_TOKEN", nullable = true)
+	private String passwordResetToken;
 	
 
 	public User() {
 		super();
 	}
 	
-	public User(int id, String firstName, String lastName, Date dob, String email, int phone_no, 
+	public User(int id, String firstName, String lastName, Date dob, String email, int phoneNo, 
 			Country country, Subscription subscription) {
 		super();
 		this.id = id;
@@ -106,17 +93,17 @@ public class User {
 		this.lastName = lastName;
 		this.dob = dob;
 		this.email = email;
-		this.phone_no = phone_no;
+		this.phoneNo = phoneNo;
 		this.country = country;
 		this.subscription = subscription;
 		
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -153,11 +140,11 @@ public class User {
 	}
 
 	public int getPhone_no() {
-		return phone_no;
+		return phoneNo;
 	}
 
-	public void setPhone_no(int phone_no) {
-		this.phone_no = phone_no;
+	public void setPhoneNo(int phoneNo) {
+		this.phoneNo = phoneNo;
 	}
 
 
@@ -174,13 +161,13 @@ public class User {
 	
 	}
 
-	public String getPassword_reset_token() {
-		return password_reset_token;
+	public String getPasswordResetToken() {
+		return passwordResetToken;
 	}
 
 
-	public LocalDate getRegistration_date() {
-		return registration_date;
+	public LocalDate getRegistrationDate() {
+		return registrationDate;
 
 	}
 

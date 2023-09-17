@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,7 +19,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity 
@@ -32,62 +30,53 @@ public class Show {
 	@Column(name = "SHOW_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "show_gen")
 	@SequenceGenerator(name = "show_gen", sequenceName = "show_id_seq", initialValue = 1, allocationSize = 1)
-	private Integer show_id;
+	private Integer showId;
 	
-	@Column(name = "SHOW_TITLE")
-	@NotBlank(message = "Title must not be null or blank")
+	@Column(name = "SHOW_TITLE", nullable = false)
 	@Size(min = 1, max = 60, message = "Title must  be longer than 1 character and less than 60 characters")
-	private String show_title;
+	private String showTitle;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "SHOW_TYPE")
-	@NotBlank(message = "Show type must not be null or blank")
+	@Column(name = "SHOW_TYPE", nullable = false)
 	@Size(min = 1, max = 10, message = "Title must  be longer than 1 character and less than 10 characters")
-	private ShowType show_type;
+	private ShowType showType;
 	
-	@Column(name = "SHOW_RELEASE_YEAR")
+	@Column(name = "SHOW_RELEASE_YEAR", nullable = false)
 	@Size(max = 4)
-	private String show_release_year;
+	private String showReleaseYear;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "CERTIFICATE")
-	@NotBlank(message = "Age certificate must not be null or blank")
+	@Column(name = "CERTIFICATE", nullable = false)
 	@Size(min = 1, max = 4, message = "age certificate year must  be longer than 1 character and less than 4 characters")
 	private Certificate certificate;
 	
-	@Column(name = "SHOW_SYNOPSIS")
-	@Nullable 
+	@Column(name = "SHOW_SYNOPSIS", nullable = true)
 	@Size(max = 150) 
-	private String show_synopsis;
+	private String showSynopsis;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "LANGUAGE")
-	@Nullable 
+	@Column(name = "LANGUAGE", nullable = true)
 	@Size(max = 20)
 	private Language language;
 	
-	@Column(name = "SHOW_DURATION")
-	@Nullable 
+	@Column(name = "SHOW_DURATION", nullable = true)
 	@Size(max = 10)
-	private String show_duration;
+	private String showDuration;
 	
-	@Column(name = "SHOW_IMAGE")
-	@NotBlank(message = "Image required")
+	@Column(name = "SHOW_IMAGE", nullable = false)
 	@Size(min = 5, max = 100)
-	private String show_image;
+	private String showImage;
 	
-	@Column(name = "SHOW_TRAILER")
-	@NotBlank(message = "Link required")
+	@Column(name = "SHOW_TRAILER", nullable = true)
 	@Size(min = 5, max = 100)
-	private String show_trailer;
+	private String showTrailer;
 	
-	@Column(name = "SHOW_STREAM")
-	@NotBlank(message = "Link required")
+	@Column(name = "SHOW_STREAM", nullable = false)
 	@Size(min = 5, max = 100)
-	private String show_stream;
+	private String showStream;
 	
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-	@JoinTable(name = "show_and_genre", joinColumns = @JoinColumn(name = "show_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
+	@JoinTable(name = "show_and_genre", joinColumns = @JoinColumn(name = "SHOW_ID"), inverseJoinColumns = @JoinColumn(name = "GENRE_ID"))
 	private List<Genre> genres = new ArrayList<>();
 	
 
@@ -96,85 +85,89 @@ public class Show {
 	}
 
 	
-	public Show(Integer show_id,
-			String show_title,
-			ShowType show_type,
-			String show_release_year,
+	public Show(Integer showId,
+			String showTitle,
+			ShowType showType,
+			String showReleaseYear,
 			Certificate certificate,
 			Language language,
-			String show_duration,
-			String show_image, 
+			String showDuration,
+			String showImage, 
 			List<Genre> genres) {
 		super();
-		this.show_id = show_id;
-		this.show_title = show_title;
-		this.show_type = show_type;
-		this.show_release_year = show_release_year;
+		this.showId = showId;
+		this.showTitle = showTitle;
+		this.showType = showType;
+		this.showReleaseYear = showReleaseYear;
 		this.certificate = certificate;
 		this.language = language;
-		this.show_duration = show_duration;
-		this.show_image = show_image;
+		this.showDuration = showDuration;
+		this.showImage = showImage;
 		this.genres = genres;
 	}
 
 
 
-	public Show(Integer show_id,
-			String show_title,
-			ShowType show_type,
-			String show_release_year,
+	
+
+	public Show(Integer showId,
+			String showTitle,
+			ShowType showType,
+			String showReleaseYear,
 			Certificate certificate,
-			String show_synopsis,
+			String showSynopsis,  
 			Language language,
-			String show_duration,
-			String show_image,
-			String show_trailer,
-			String show_stream, List<Genre> genres) {
+			String showDuration, 
+			String showImage,
+			String showTrailer, 
+			String showStream,
+			List<Genre> genres) {
 		super();
-		this.show_id = show_id;
-		this.show_title = show_title;
-		this.show_type = show_type;
-		this.show_release_year = show_release_year;
+		this.showId = showId;
+		this.showTitle = showTitle;
+		this.showType = showType;
+		this.showReleaseYear = showReleaseYear;
 		this.certificate = certificate;
-		this.show_synopsis = show_synopsis;
+		this.showSynopsis = showSynopsis;
 		this.language = language;
-		this.show_duration = show_duration;
-		this.show_image = show_image;
-		this.show_trailer = show_trailer;
-		this.show_stream = show_stream;
+		this.showDuration = showDuration;
+		this.showImage = showImage;
+		this.showTrailer = showTrailer;
+		this.showStream = showStream;
 		this.genres = genres;
 	}
 
-	public Integer getShow_id() {
-		return show_id;
+
+	public Integer getShowId() {
+		return showId;
 	}
 
-	public void setShow_id(Integer show_id) {
-		this.show_id = show_id;
+	public void setShowId(Integer showId) {
+		this.showId = showId;
 	}
 
-	public String getShow_title() {
-		return show_title;
+	public String getShowTitle() {
+		return showTitle;
 	}
 
-	public void setShow_title(String show_title) {
-		this.show_title = show_title;
+	public void setShowTitle(String showTitle) {
+		this.showTitle = showTitle;
 	}
 
-	public ShowType getShow_type() {
-		return show_type;
+	public ShowType getShowType() {
+		return showType;
 	}
 
-	public void setShow_type(ShowType show_type) {
-		this.show_type = show_type;
+	public void setShowType(ShowType showType) {
+		this.showType = showType;
 	}
 
-	public String getShow_release_year() {
-		return show_release_year;
+	public String getShowReleaseYear() {
+		return showReleaseYear;
 	}
 
-	public void setShow_release_year(String show_release_year) {
-		this.show_release_year = show_release_year;
+	public void setShowReleaseYear(String showReleaseYear) {
+		this.showReleaseYear = showReleaseYear;
 	}
 
 	public Certificate getCertificate() {
@@ -185,12 +178,12 @@ public class Show {
 		this.certificate = certificate;
 	}
 
-	public String getShow_synopsis() {
-		return show_synopsis;
+	public String getShowSynopsis() {
+		return showSynopsis;
 	}
 
-	public void setShow_synopsis(String show_synopsis) {
-		this.show_synopsis = show_synopsis;
+	public void setShowSynopsis(String showSynopsis) {
+		this.showSynopsis = showSynopsis;
 	}
 
 	public Language getLanguage() {
@@ -201,37 +194,37 @@ public class Show {
 		this.language = language;
 	}
 
-	public String getShow_duration() {
-		return show_duration;
+	public String getShowDuration() {
+		return showDuration;
 	}
 
-	public void setShow_duration(String show_duration) {
-		this.show_duration = show_duration;
+	public void setShowDuration(String show_duration) {
+		this.showDuration = showDuration;
 	}
 
-	public String getShow_image() {
-		return show_image;
+	public String getShowImage() {
+		return showImage;
 	}
 
-	public void setShow_image(String show_image) {
-		this.show_image = show_image;
+	public void setShowImage(String showImage) {
+		this.showImage = showImage;
 	}
 
-	public String getShow_trailer() {
-		return show_trailer;
+	public String getShowTrailer() {
+		return showTrailer;
 	}
 
-	public void setShow_trailer(String show_trailer) {
-		this.show_trailer = show_trailer;
+	public void setShowTrailer(String showTrailer) {
+		this.showTrailer = showTrailer;
 	}
 
 	public String getShow_stream() {
-		return show_stream;
+		return showStream;
 	}
 
 
-	public void setShow_stream(String show_stream) {
-		this.show_stream = show_stream;
+	public void setShowStream(String showStream) {
+		this.showStream = showStream;
 	}
 
 	public List<Genre> getGenres() {

@@ -2,74 +2,50 @@ package api.model;
 
 import java.util.List;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-//import jakarta.persistence.JoinColumn;
-//import jakarta.persistence.ManyToOne;
-//import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity 
 @Table(name = "Episode")
 public class Episode extends Show {
-//public class Episode{
-//	@Id
-	@Column(name = "EPISODE_ID" )
-//	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "episode_gen")
-//	@SequenceGenerator(name = "episode_gen", sequenceName = "episode_id_seq", initialValue = 1, allocationSize = 1)
-	private Integer episode_id;
+
+	@Column(name = "EPISODE_ID", nullable = false)
+	private Integer episodeId;
+
+	@Column(name = "EPISODE_TITLE", nullable = false)
+	private String episodeTitle;
 	
-//	@ManyToOne
-//	@JoinColumn(name = "SHOW_ID")
-//	private Integer show_id;
+	@Column(name = "SERIES_ID", nullable = false)
+	private Integer seriesId;
 	
-	@Column(name = "EPISODE_TITLE")
-	@NotBlank(message = "Episode title must be provided")
-	private String episode_title;
+	@Column(name = "EPISODE_PLOT", nullable = true)
+	private String episodePlot;
 	
-	@Column(name = "SERIES_ID")
-	@NotBlank
-	private Integer series_id;
-	
-	@Column(name = "EPISODE_PLOT")
-	@Nullable 
-	private String episode_plot;
-	
-	@Column(name = "SEASON_NO")
-	@NotBlank
+	@Column(name = "SEASON_NO", nullable = false)
 	@Size(max = 2)
-	private Integer season_no;
+	private Integer seasonNo;
 	
 	@Column(name = "SEASON_RELEASE_YEAR")
 	@Size(max = 4)
-	private String season_release_year;
+	private String seasonReleaseYear;
 	
-	@Column(name = "EPISODE_DURATION")
-	@Nullable 
+	@Column(name = "EPISODE_DURATION", nullable = true) 
 	@Size(max = 4)
-	private String episode_duration;
+	private String episodeDuration;
 	
-	@Column(name = "EPISODE_IMAGE")
-	@Nullable 
+	@Column(name = "EPISODE_IMAGE", nullable = false)
 	@Size(min = 5, max = 100)
-	private String episode_image;
+	private String episodeImage;
 	
-	@Column(name = "EPISODE_TRAILER")
-	@Nullable 
+	@Column(name = "EPISODE_TRAILER", nullable = false)
 	@Size(max = 150) 
-	private String episode_trailer;
+	private String episodeTrailer;
 	
-	@Column(name = "EPISODE_STREAM")
-	@NotBlank(message = "Link required")
+	@Column(name = "EPISODE_STREAM", nullable = false)
 	@Size(min = 5, max = 100)
-	private String episode_stream;
-	
+	private String episodeStream;
 	
 
 	public Episode() {
@@ -77,137 +53,136 @@ public class Episode extends Show {
 	}
 
 	
-	
-	public Episode(Integer episode_id,
-			String episode_title,
-			Integer series_id,
-			String episode_plot, 
-			Integer season_no,
-			String season_release_year, 
-			String episode_duration,
-			String episode_image, 
-			String episode_trailer,
-			String episode_stream) {
+	public Episode(Integer episodeId,
+			String episodeTitle,
+			Integer seriesId,
+			String episodePlot, 
+			Integer seasonNo,
+			String seasonReleaseYear, 
+			String episodeDuration,
+			String episodeImage, 
+			String episodeTrailer,
+			String episodeStream) {
 		super();
-		this.episode_id = episode_id;
-		this.episode_title = episode_title;
-		this.series_id = series_id;
-		this.episode_plot = episode_plot;
-		this.season_no = season_no;
-		this.season_release_year = season_release_year;
-		this.episode_duration = episode_duration;
-		this.episode_image = episode_image;
-		this.episode_trailer = episode_trailer;
-		this.episode_stream = episode_stream;
+		this.episodeId = episodeId;
+		this.episodeTitle = episodeTitle;
+		this.seriesId = seriesId;
+		this.episodePlot = episodePlot;
+		this.seasonNo = seasonNo;
+		this.seasonReleaseYear = seasonReleaseYear;
+		this.episodeDuration = episodeDuration;
+		this.episodeImage = episodeImage;
+		this.episodeTrailer = episodeTrailer;
+		this.episodeStream = episodeStream;
 	}
 
 
 	
 
-	public Episode(Integer show_id, String show_title, ShowType show_type, String show_release_year,
-			Certificate certificate, Language language, String show_duration, String show_image, List<Genre> genres) {
-		super(show_id, show_title, show_type, show_release_year, certificate, language, show_duration, show_image, genres);
-		// TODO Auto-generated constructor stub
+	public Episode(Integer showId, String showTitle, ShowType showType, String showReleaseYear,
+			Certificate certificate, Language language, String showDuration, String showImage, List<Genre> genres) {
+		super(showId, showTitle, showType, showReleaseYear, certificate, language, showDuration, showImage, genres);
+
 	}
 
 
 
-	public Episode(Integer show_id, String show_title, ShowType show_type, String show_release_year,
-			Certificate certificate, String show_synopsis, Language language, String show_duration, String show_image,
-			String show_trailer, String show_stream, List<Genre> genres) {
-		super(show_id, show_title, show_type, show_release_year, certificate, show_synopsis, language, show_duration,
-				show_image, show_trailer, show_stream, genres);
-		// TODO Auto-generated constructor stub
+	public Episode(Integer showId, String showTitle, ShowType showType, String showReleaseYear,
+			Certificate certificate, String showSynopsis, Language language, String showDuration, String showImage,
+			String showTrailer, String showStream, List<Genre> genres) {
+		super(showId, showTitle, showType, showReleaseYear, certificate, showSynopsis, language, showDuration,
+				showImage, showTrailer, showStream, genres);
+
 	}
 
 
 
-	public Integer getEpisode_id() {
-		return episode_id;
+	public Integer getEpisodeId() {
+		return episodeId;
 	}
 
-	public void setEpisode_id(Integer episode_id) {
-		this.episode_id = episode_id;
+	public void setEpisodeId(Integer episodeId) {
+		this.episodeId = episodeId;
 	}
 
-	public String getEpisode_title() {
-		return episode_title;
+	public String getEpisodeTitle() {
+		return episodeTitle;
 	}
 	
 
-	public Integer getSeries_id() {
-		return series_id;
+	public Integer getSeriesId() {
+		return seriesId;
 	}
 
-	public void setSeries_id(Integer series_id) {
-		this.series_id = series_id;
+	public void setSeriesId(Integer seriesId) {
+		this.seriesId = seriesId;
 	}
 
-	public void setEpisode_title(String episode_title) {
-		this.episode_title = episode_title;
+	public void setEpisodeTitle(String episodeTitle) {
+		this.episodeTitle = episodeTitle;
 	}
 
-	public String getEpisode_plot() {
-		return episode_plot;
-	}
-
-
-	public void setEpisode_plot(String episode_plot) {
-		this.episode_plot = episode_plot;
+	public String getEpisodePlot() {
+		return episodePlot;
 	}
 
 
-	public Integer getSeason_no() {
-		return season_no;
-	}
-
-	public void setSeason_no(Integer season_no) {
-		this.season_no = season_no;
+	public void setEpisodePlot(String episodePlot) {
+		this.episodePlot = episodePlot;
 	}
 
 
-	public String getSeason_release_year() {
-		return season_release_year;
+	public Integer getSeasonNo() {
+		return seasonNo;
+	}
+
+	public void setSeasonNo(Integer seasonNo) {
+		this.seasonNo = seasonNo;
 	}
 
 
-	public void setSeason_release_year(String season_release_year) {
-		this.season_release_year = season_release_year;
+	public String getSeasonReleaseYear() {
+		return seasonReleaseYear;
 	}
 
 
-	public String getEpisode_duration() {
-		return episode_duration;
+	public void setSeasonReleaseYear(String seasonReleaseYear) {
+		this.seasonReleaseYear = seasonReleaseYear;
 	}
 
 
-	public void setEpisode_duration(String episode_duration) {
-		this.episode_duration = episode_duration;
+	public String getEpisodeDuration() {
+		return episodeDuration;
 	}
 
 
-	public String getEpisode_image() {
-		return episode_image;
+	public void setEpisodeDuration(String episodeDuration) {
+		this.episodeDuration = episodeDuration;
 	}
 
-	public void setEpisode_image(String episode_image) {
-		this.episode_image = episode_image;
+
+	public String getEpisodeImage() {
+		return episodeImage;
 	}
 
-	public String getEpisode_trailer() {
-		return episode_trailer;
+	public void setEpisodeImage(String episodeImage) {
+		this.episodeImage = episodeImage;
 	}
 
-	public void setEpisode_trailer(String episode_trailer) {
-		this.episode_trailer = episode_trailer;
+	public String getEpisodeTrailer() {
+		return episodeTrailer;
 	}
 
-	public String getEpisode_stream() {
-		return episode_stream;
+	public void setEpisodeTrailer(String episodeTrailer) {
+		this.episodeTrailer = episodeTrailer;
 	}
 
-	public void setEpisode_stream(String episode_stream) {
-		this.episode_stream = episode_stream;
+	public String getEpisodeStream() {
+		return episodeStream;
+	}
+
+	public void setEpisodeStream(String episodeStream) {
+		this.episodeStream = episodeStream;
 	}
 
 

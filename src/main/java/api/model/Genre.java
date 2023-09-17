@@ -1,7 +1,6 @@
 package api.model;
 
 
-import jakarta.annotation.Nullable;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,25 +8,24 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@Table(name = "Genre")
 public class Genre {
 
 
 	@Id
-	@Column(name = "genre_id")
+	@Column(name = "GENRE_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "genregen")		@SequenceGenerator(name = "genregen", sequenceName = "genre_id_seq", initialValue = 1, allocationSize = 1 )
-	private int genre_id;
+	private Integer genreId;
 		
-	@Column(name = "GENRENAME")
-	@NotBlank
+	@Column(name = "GENRENAME", nullable = false)
 	@Size(min = 1, max = 20)
-	private String genre_name;
+	private String genreName;
 		
-	@Column(name = "DESCRIPTION")
-	@Nullable 
+	@Column(name = "DESCRIPTION", nullable = true)
 	private String description;
 
 	public Genre() {
@@ -35,29 +33,29 @@ public class Genre {
 	
 	}
 
-	public Genre(int genre_id,
-			String genre_name,
+	public Genre(Integer genreId,
+			String genreName,
 			String description) {
 		super();
-		this.genre_id = genre_id;
-		this.genre_name = genre_name;
+		this.genreId = genreId;
+		this.genreName = genreName;
 		this.description = description;
 	}
 
-	public int getGenre_id() {
-		return genre_id;
+	public Integer getGenreId() {
+		return genreId;
 	}
 
-	public void setGenre_id(int genre_id) {
-		this.genre_id = genre_id;
+	public void setGenreId(Integer genreId) {
+		this.genreId = genreId;
 	}
 
 	public String getGenreName() {
-		return genre_name;
+		return genreName;
 	}
 
-	public void setGenreName(String genre_name) {
-		this.genre_name = genre_name;
+	public void setGenreName(String genreName) {
+		this.genreName = genreName;
 	}
 
 	public String getDescription() {
