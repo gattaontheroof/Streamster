@@ -12,8 +12,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -23,10 +22,16 @@ public class Episode {
 	@Id
 	@Column(name = "EPISODE_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "episode_gen")
-	@SequenceGenerator(name = "episode_gen", sequenceName = "episode_id_seq", initialValue = 1, allocationSize = 1)
+	@SequenceGenerator(name = "episode_gen", sequenceName = "episode_id_seq", initialValue = 1000, allocationSize = 1)
 	private Integer episodeId;
 
-	@Column(name = "EPISODE_TITLE", nullable = false)
+	@Column(name = "EPISODE_NO")
+	@NotBlank
+	@Size(min = 4, max = 10)
+	private String episodeNumber;
+
+	@Column(name = "EPISODE_TITLE")
+	@NotBlank
 	@Size(min = 1, max = 100, message = "Title must  be longer than 1 character and less than 100 characters")
 	private String episodeTitle;
 
@@ -39,27 +44,27 @@ public class Episode {
 	@Size(max = 200)
 	private String episodePlot;
 
-	@Column(name = "SEASON_NO", nullable = false)
-	@Min(value = 1, message = "Season number must be at least 1")
-	@Max(value = 99, message = "Season number must be at most 99")
-	private Integer seasonNo;
+	@Column(name = "NO_OF_SEASON", nullable = true)
+	@Size(min = 1, max = 99)
+	private Integer noOfSeasons;
 
 	@Column(name = "SEASON_RELEASE_YEAR", nullable = true)
-	private Date seasonReleaseYear;
+	private String seasonReleaseYear;
 
 	@Column(name = "EPISODE_DURATION", nullable = true)
-	@Size(max = 4)
+	@Size(max = 8)
 	private String episodeDuration;
 
-	@Column(name = "EPISODE_IMAGE", nullable = false)
+	@Column(name = "EPISODE_IMAGE", nullable = true)
 	@Size(min = 5, max = 100)
 	private String episodeImage;
 
-	@Column(name = "EPISODE_TRAILER", nullable = false)
+	@Column(name = "EPISODE_TRAILER", nullable = true)
 	@Size(max = 150)
 	private String episodeTrailer;
 
-	@Column(name = "EPISODE_STREAM", nullable = false)
+	@Column(name = "EPISODE_STREAM")
+	@NotBlank
 	@Size(min = 5, max = 200)
 	private String episodeStream;
 
@@ -67,29 +72,21 @@ public class Episode {
 
 	}
 
-	public Episode(Integer episodeId, 
-			String episodeTitle, 
-			String episodePlot, 
-			Integer seasonNo,
-			Date seasonReleaseYear, 
-			String episodeDuration, 
-			String episodeImage, 
-			String episodeTrailer,
-			String episodeStream) {
+	public Episode(Integer episodeId, String episodeNumber, String episodeTitle, String episodePlot,
+			Integer noOfSeasons, String seasonReleaseYear, String episodeDuration, String episodeImage,
+			String episodeTrailer, String episodeStream) {
 		super();
 		this.episodeId = episodeId;
+		this.episodeNumber = episodeNumber;
 		this.episodeTitle = episodeTitle;
-	
 		this.episodePlot = episodePlot;
-		this.seasonNo = seasonNo;
+		this.noOfSeasons = noOfSeasons;
 		this.seasonReleaseYear = seasonReleaseYear;
 		this.episodeDuration = episodeDuration;
 		this.episodeImage = episodeImage;
 		this.episodeTrailer = episodeTrailer;
 		this.episodeStream = episodeStream;
 	}
-
-	
 
 	public Integer getEpisodeId() {
 		return episodeId;
@@ -99,10 +96,33 @@ public class Episode {
 		this.episodeId = episodeId;
 	}
 
+	public String getEpisodeNumber() {
+		return episodeNumber;
+	}
+
+	public void setEpisodeNumber(String episodeNumber) {
+		this.episodeNumber = episodeNumber;
+	}
+
+	public Show getShow() {
+		return show;
+	}
+
+	public void setShow(Show show) {
+		this.show = show;
+	}
+
+	public Integer getNoOfSeasons() {
+		return noOfSeasons;
+	}
+
+	public void setNoOfSeasons(Integer noOfSeasons) {
+		this.noOfSeasons = noOfSeasons;
+	}
+
 	public String getEpisodeTitle() {
 		return episodeTitle;
 	}
-
 
 	public void setEpisodeTitle(String episodeTitle) {
 		this.episodeTitle = episodeTitle;
@@ -116,19 +136,11 @@ public class Episode {
 		this.episodePlot = episodePlot;
 	}
 
-	public Integer getSeasonNo() {
-		return seasonNo;
-	}
-
-	public void setSeasonNo(Integer seasonNo) {
-		this.seasonNo = seasonNo;
-	}
-
-	public Date getSeasonReleaseYear() {
+	public String getSeasonReleaseYear() {
 		return seasonReleaseYear;
 	}
 
-	public void setSeasonReleaseYear(Date seasonReleaseYear) {
+	public void setSeasonReleaseYear(String seasonReleaseYear) {
 		this.seasonReleaseYear = seasonReleaseYear;
 	}
 

@@ -2,7 +2,6 @@ package com.api.model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-//import java.util.List;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -16,11 +15,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-//import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -35,23 +30,28 @@ public class User {
 	@SequenceGenerator(name = "usergen", sequenceName = "user_id_seq", initialValue = 5, allocationSize = 1)
 	private int id;
 
-	@Column(name = "FIRSTNAME", nullable = false)
+	@Column(name = "FIRSTNAME")
 	@NotBlank
-	@Size(min = 1, max = 20, message = "First name must  be inter than 1 character and less than 20 characters")
+	@Size(min = 1, max = 20, message = "First name must be at least 1 character and less than 20 characters")
 	private String firstName;
 
-	@Column(name = "LASTNAME", nullable = false)
+	@Column(name = "LASTNAME")
 	@NotBlank
-	@Size(min = 1, max = 20, message = "Last name must  be lonher than 1 character and less than 20 characters")
+	@Size(min = 1, max = 20, message = "Last name must be longer than 1 character and less than 20 characters")
 	private String lastName;
-
-	@Column(name = "DOB", nullable = false)
+	
+	@Column(name = "USERNAME")
 	@NotBlank
-	@DateTimeFormat
+	@Size(min = 3, max = 20, message = "Username must be at least 3 characters and less than 20 characters")
+	private String username;
+
+	@Column(name = "DOB")
+	@NotBlank
+	@DateTimeFormat(pattern = "yyyy-MM-dd") 
 	@Size(min = 8, max = 12, message = "DOB must not be blank")
 	private Date dob;
 
-	@Column(name = "EMAIL", nullable = false)
+	@Column(name = "EMAIL")
 	@NotBlank
 	@Size(min = 6, max = 30)
 	@Email
@@ -65,17 +65,15 @@ public class User {
 	@NotBlank
 	@Column(name = "COUNTRY", nullable = false)
 	@Size(min = 6, max = 30)
-	private Country country;
+	private Country country = Country.UK;	//UK set up as default
 
-	@Column(name = "PASSWORD", nullable = false)
+	@Column(name = "PASSWORD")
 	@NotBlank
 	@Size(min = 8, max = 30)
 	@Value("${some.key:u}")
 	private String password;
 
-	@Column(name = "REGISTRATION_DATE", nullable = false)
-	@NotBlank
-	@GeneratedValue
+	@Column(name = "REGISTRATION_DATE")
 	private LocalDate registrationDate;
 
 //	@Enumerated(EnumType.STRING)
@@ -85,17 +83,11 @@ public class User {
 //	private UserType userType;
 
 	@Enumerated(EnumType.STRING)
-	@Column(name = "SUBSCRIPTION", nullable = false)
+	@Column(name = "SUBSCRIPTION")
 	@NotBlank
 	@Size(max = 8)
-	private Subscription subscription;
+	private Subscription subscription = Subscription.BASIC; // Default value
 
-//	@Column(name = "PAYMENT", nullable = true)
-//	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-//	@JoinTable(name = "USER_PAYMENT", joinColumns = @JoinColumn(name = "USER_ID"), inverseJoinColumns = @JoinColumn(name = "PAYMENT_ID"))
-//	private List<Payment> payments = new ArrayList<>();
-	
 	
 	@Column(name = "PAYMENT", nullable = true)
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = false)
@@ -111,20 +103,26 @@ public class User {
 	@Column(name = "RESET_TOKEN", nullable = true)
 	private String passwordResetToken;
 
-
-	public User(int id, String firstName, String lastName, Date dob, String email, String phoneNo, Country country,
+	public User() {
+		
+	}
+	
+	
+	public User(String firstName, String lastName, String username, Date dob, String email, String phoneNo, Country country,
 			 Subscription subscription) {
 		super();
-		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.username = username;
 		this.dob = dob;
 		this.email = email;
 		this.phoneNo = phoneNo;
 		this.country = country;
 		this.subscription = subscription;
+		
+    }
 
-	}
+
 	
 //testing constructor
 	public User(int id, String firstName, String lastName, String email) {
@@ -133,10 +131,6 @@ public class User {
 
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -153,6 +147,14 @@ public class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	
+	public String getUsername() {
+		return lastName;
+	}
+
+	public void setgetUsername(String getUsername) {
+		this.lastName = getUsername;
 	}
 
 	public Date getDob() {
@@ -197,7 +199,7 @@ public class User {
 	}
 
 	public LocalDate getRegistrationDate() {
-		return registrationDate;
+		return this.registrationDate = LocalDate.now();
 
 	}
 
@@ -208,5 +210,7 @@ public class User {
 	public void setSubscription(Subscription subscription) {
 		this.subscription = subscription;
 	}
+
+
 
 }

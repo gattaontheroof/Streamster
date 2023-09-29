@@ -17,6 +17,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity 
@@ -27,41 +28,45 @@ public class Show {
 	@Id
 	@Column(name = "SHOW_ID")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "show_gen")
-	@SequenceGenerator(name = "show_gen", sequenceName = "show_id_seq", initialValue = 1, allocationSize = 1)
+	@SequenceGenerator(name = "show_gen", sequenceName = "show_id_seq", initialValue = 1000, allocationSize = 1)
 	private Integer showId;
 	
-	@Column(name = "SHOW_TITLE", nullable = false)
+	@Column(name = "SHOW_TITLE")
+	@NotBlank
 	@Size(min = 1, max = 60, message = "Title must  be longer than 1 character and less than 60 characters")
 	private String showTitle;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "SHOW_TYPE", nullable = false)
+	@Column(name = "SHOW_TYPE")
+	@NotBlank
 	@Size(min = 1, max = 10, message = "Title must  be longer than 1 character and less than 10 characters")
 	private ShowType showType;
 	
-	@Column(name = "SHOW_RELEASE_YEAR", nullable = false)
-	@Size(max = 4)
+	@Column(name = "SHOW_RELEASE_YEAR")
+	@NotBlank
+	@Size(max = 10)
 	private String showReleaseYear;
 	
 	@Enumerated(EnumType.STRING)
-	@Column(name = "CERTIFICATE", nullable = false)
-	@Size(min = 1, max = 4, message = "age certificate year must  be longer than 1 character and less than 4 characters")
+	@Column(name = "CERTIFICATE")
+	@NotBlank
+	@Size(min = 1, max = 10, message = "Please choose Age Certificate")
 	private Certificate certificate;
 	
 	@Column(name = "SHOW_SYNOPSIS", nullable = true)
-	@Size(max = 150) 
+	@Size(max = 300) 
 	private String showSynopsis;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "LANGUAGE", nullable = true)
 	@Size(max = 20)
-	private Language language;
+	private Language language = Language.ENGLISH;
 	
 	@Column(name = "SHOW_DURATION", nullable = true)
 	@Size(max = 10)
 	private String showDuration;
 	
-	@Column(name = "SHOW_IMAGE", nullable = false)
+	@Column(name = "SHOW_IMAGE", nullable = true)
 	@Size(min = 5, max = 100)
 	private String showImage;
 	
@@ -69,7 +74,7 @@ public class Show {
 	@Size(min = 5, max = 100)
 	private String showTrailer;
 	
-	@Column(name = "SHOW_STREAM", nullable = false)
+	@Column(name = "SHOW_STREAM", nullable = true)
 	@Size(min = 5, max = 100)
 	private String showStream;
 	
@@ -114,9 +119,6 @@ public class Show {
 		//this.genres = genres;
 	}
 
-
-
-	
 
 	public Show(Integer showId,
 			String showTitle,
@@ -245,6 +247,9 @@ public class Show {
 	}
 	
 
+	public void assignGenre(Genre genre) {
+		genres.add(genre);
+	}
 	
 }
 

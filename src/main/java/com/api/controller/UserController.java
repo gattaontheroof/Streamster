@@ -3,6 +3,8 @@ package com.api.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.naming.AuthenticationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +43,7 @@ public class UserController {
 //	    }
 //	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/id/{id}")
 	public ResponseEntity<?> getUserById(@PathVariable Integer id) {
 	    try {
 	        Optional<?> user = userService.findById(id);
@@ -51,11 +53,28 @@ public class UserController {
 	    }
 	}
 
-	@GetMapping("/searchUserByName")
+	@GetMapping("/searchUserByName/{lastName}/{firstName}")
 	public ResponseEntity<List<User>> findByFirstNameAndLastName(@PathVariable String lastName,
 			@PathVariable String firstName){
 		return ResponseEntity.status(HttpStatus.OK).body(userService.findByFirstNameAndLastName(firstName, lastName));		
 	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> loginUser(@RequestBody User user) {
+	    // Call the login method in your userService, passing the user object
+	    // The login method should handle the authentication logic
+	    // For example, it might return a JWT token upon successful login
+	    // or throw an exception for authentication failure
+	    try {
+	        String token = userService.login(user.getUsername(), user.getPassword());
+	        // Return the token and a success status code
+	        return ResponseEntity.ok(token);
+	    } catch (AuthenticationException e) {
+	        // Return an error status code for authentication failure
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed");
+	    }
+	}
+
 	@PostMapping("/add-user")
 	public ResponseEntity<?> saveUser(@RequestBody User user) {
 		return new ResponseEntity<> (userService.save(user), HttpStatus.CREATED);
