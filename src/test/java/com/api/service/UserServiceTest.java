@@ -27,7 +27,7 @@ public class UserServiceTest {
 	private UserRepository userRepository;
 
 	@Test
-	public void testGetUserById() throws UserNotFoundException {
+	public void testGetUserById_ReturnsUserObject_IfIdExists() throws UserNotFoundException {
 		// Arrange
 		int id = 1357;
 		User mockUser = new User(id, "John", "Smith", "jsmith@email.com");

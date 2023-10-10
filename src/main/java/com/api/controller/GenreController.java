@@ -20,7 +20,7 @@ import com.api.model.Genre;
 import com.api.service.GenreService;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1/genres")
 @CrossOrigin(origins = "http://localhost:3000")
 public class GenreController {
 		
@@ -33,19 +33,20 @@ public class GenreController {
 		
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/{genreId}")
 	public ResponseEntity<?> getGenreByid(@PathVariable int genreId) {
 		return ResponseEntity.status(HttpStatus.OK).body(genreService.findByGenreId(genreId));
 	}
 	
-	@GetMapping("/searchByGenre")
-	public ResponseEntity<?> findByGenre(@PathVariable String genre){
-		return ResponseEntity.status(HttpStatus.OK).body(genreService.findByGenreName(genre));
+	@GetMapping("/{genreName}")
+	public ResponseEntity<?> findByGenre(@PathVariable String genreName){
+		return ResponseEntity.status(HttpStatus.OK).body(genreService.findByGenreName(genreName));
 	}
 	
 	@PostMapping("/add-genre")
 	public ResponseEntity<?> saveGenre(@RequestBody Genre genre){
-		return new ResponseEntity<>(genreService.save(genre), HttpStatus.CREATED);
+		return ResponseEntity.status(HttpStatus.CREATED).body(genre);
+//		return new ResponseEntity<>(genreService.save(genre), HttpStatus.CREATED);
 	}
 	
 	//update
@@ -55,9 +56,9 @@ public class GenreController {
 	}
 	
 	//delete
-	@DeleteMapping("/{genre_id}")
-	public ResponseEntity<Void> deleteGenre(@PathVariable int genre_id){
-		genreService.removeGenre(genre_id);
+	@DeleteMapping("/{genreId}")
+	public ResponseEntity<Void> deleteGenre(@PathVariable int genreId){
+		genreService.removeGenre(genreId);
 		return ResponseEntity
 				.status(HttpStatus.OK)
 				.build();

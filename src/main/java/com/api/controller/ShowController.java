@@ -36,15 +36,15 @@ public class ShowController {
 	
 	@GetMapping("/all-films")
 	public List<Show> getAllFilms(ShowType FILM){
-		return showService.getAllFilms(FILM);	
+		return showService.getAllFilms(ShowType.FILM);	
 	}
 	
 	@GetMapping("/all-series")
 	public List<Show> getAllSeries(ShowType SERIES){
-		return showService.getAllSeries(SERIES);	
+		return showService.getAllSeries(ShowType.SERIES);	
 	}
 	
-	@GetMapping("/shows/show/{show_id}")
+	@GetMapping("/show/{show_id}")
 	public ResponseEntity<?> getShowId(@PathVariable("show_id") Integer showId) {
 		Optional<Show> show = showService.findShowById(showId);
 	    if (show == null) {
@@ -53,8 +53,8 @@ public class ShowController {
 		return ResponseEntity.status(HttpStatus.OK).body(showService.findShowById(showId));
 	}
 	
-	@GetMapping("/searchShowByTitle")
-	public ResponseEntity<Optional<Show>> findByShowTitle(@PathVariable("showTitle") String showTitle){
+	@GetMapping("/searchShowByTitle/{showTitle}")
+	public ResponseEntity<Optional<Show>> getShowByShowTitle(@PathVariable("showTitle") String showTitle){
 		return ResponseEntity.status(HttpStatus.OK).body(showService.findShowByTitle(showTitle));		
 	}
 	

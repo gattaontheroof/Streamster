@@ -1,6 +1,5 @@
 package com.api.model;
 
-import java.sql.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,20 +24,20 @@ public class Episode {
 	@SequenceGenerator(name = "episode_gen", sequenceName = "episode_id_seq", initialValue = 1000, allocationSize = 1)
 	private Integer episodeId;
 
+		// bidirectional relationship between Show and Episode
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SHOW_ID")
+	private Show show;
+	
 	@Column(name = "EPISODE_NO")
 	@NotBlank
 	@Size(min = 4, max = 10)
-	private String episodeNumber;
+	private Integer episodeNumber;
 
 	@Column(name = "EPISODE_TITLE")
 	@NotBlank
 	@Size(min = 1, max = 100, message = "Title must  be longer than 1 character and less than 100 characters")
 	private String episodeTitle;
-
-	// bidirectional relationship between Show and Episode
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SHOW_ID")
-	private Show show;
 
 	@Column(name = "EPISODE_PLOT", nullable = true)
 	@Size(max = 200)
@@ -72,7 +71,7 @@ public class Episode {
 
 	}
 
-	public Episode(Integer episodeId, String episodeNumber, String episodeTitle, String episodePlot,
+	public Episode(Integer episodeId, Integer episodeNumber, String episodeTitle, String episodePlot,
 			Integer noOfSeasons, String seasonReleaseYear, String episodeDuration, String episodeImage,
 			String episodeTrailer, String episodeStream) {
 		super();
@@ -96,11 +95,11 @@ public class Episode {
 		this.episodeId = episodeId;
 	}
 
-	public String getEpisodeNumber() {
+	public Integer getEpisodeNumber() {
 		return episodeNumber;
 	}
 
-	public void setEpisodeNumber(String episodeNumber) {
+	public void setEpisodeNumber(Integer episodeNumber) {
 		this.episodeNumber = episodeNumber;
 	}
 
