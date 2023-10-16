@@ -38,7 +38,7 @@ public class UserService {
 		return userRepository.findByLastNameIgnoreCaseContainingAndFirstNameIgnoreCaseContaining(lastName, firstName);
 	}
 
-	public User save(User user) {
+	public User saveUser(User user) {
 		return userRepository.save(user);
 	}
 
@@ -54,6 +54,18 @@ public class UserService {
 			userRepository.deleteById(id);
 		}
 		return false;
+	}
+
+	public User findUserByEmail(String email) throws UserNotFoundException {
+		if (userRepository.existsByEmail(email)) {
+			return userRepository.findByEmail(email);
+		}
+		throw new UserNotFoundException("User with email:  " + email + "not found");
+	}
+
+	public String login(String username, String password) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

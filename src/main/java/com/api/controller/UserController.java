@@ -50,7 +50,7 @@ public class UserController {
 	@GetMapping("/search-user-by-lastname-firstname/{lastName}/{firstName}")
 	public ResponseEntity<List<User>> findByLastNameAndfirstName(@PathVariable String lastName,
 			@PathVariable String firstName) {
-		return ResponseEntity.status(HttpStatus.OK).body(userService.findByLastNameAndFirstName(firstName, lastName));
+		return ResponseEntity.status(HttpStatus.OK).body(userService.findByLastNameAndFirstName(lastName, firstName));
 	}
 
 	@PostMapping("/add-user")

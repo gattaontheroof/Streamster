@@ -10,8 +10,7 @@ import com.api.repository.UserRepository;
 
 public class UserAccessService {
 
-	@Autowired
-	private final UserRepository userRepository;
+	private final UserRepository userRepository = null;
 
 	public List<User> login(String username, String password) throws AuthenticationException {
 		// Retrieve the user by username

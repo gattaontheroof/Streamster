@@ -21,7 +21,7 @@ import com.api.model.Episode;
 import com.api.model.Show;
 import com.api.model.ShowType;
 import com.api.service.EpisodeService;
-import com.api.service.ShowService;
+
 
 @RestController
 @RequestMapping("/api/v1/series")

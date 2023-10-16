@@ -11,10 +11,10 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 public class JwtUtil {
-    // Define your secret key (typically stored securely, not hard-coded)
+    // Define your secret key 
     private static final String SECRET_KEY = "your_secret_key_here";
 
-    // Define token expiration time (e.g., 1 hour)
+    // Define token expiration time 
     private static final long EXPIRATION_TIME = 3600000; // 1 hour in milliseconds
 
     public static String generateToken(String subject) {
