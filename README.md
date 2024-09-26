@@ -1,2 +1,2 @@
 # Streamster
- streaming service
+API for a streaming service written in Java (SpringBoot)
